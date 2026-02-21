@@ -3,7 +3,7 @@ import sys
 
 
 pygame.init()
-WIDTH, HEIGHT = 902, 902
+WIDTH, HEIGHT = 902, 1200
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Clickable Squares")
 clock = pygame.time.Clock()
@@ -47,9 +47,17 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            for j in sq:
+                if j["rect"].collidepoint(event.pos):
+                    j["select"] = not j["select"]
     for i in sq:
-        pygame.draw.rect(screen, (30, 30, 30), i["rect"])
-        pygame.draw.rect(screen, (50, 50, 50), i["rect"])
+        color = (50, 50, 50)
+        if i["select"]:
+            color=(255, 0, 0)
+        pygame.draw.rect(screen, color, i["rect"])
+        pygame.draw.rect(screen, color, i["rect"])
         
     pygame.display.flip()
     clock.tick(60)
