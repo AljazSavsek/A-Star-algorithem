@@ -2,6 +2,7 @@ import pygame
 import sys
 
 
+
 pygame.init()
 WIDTH, HEIGHT = 902, 1200
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -25,7 +26,8 @@ for row in range(90):
         sq.append({
             "select":False,
             "rect": rect,
-            "position":(x,y)
+            "position":(x,y),
+            "startorend":0
         })
 """
 first i declere the size of squeres and the padding around them
@@ -40,9 +42,10 @@ sq[]: in which are saved the positions and type of squres it needs to create
 ---------------------MAIN---------------------
 this is the part you need to create metrix on the screen 
 """
+click = 1
 while True:
     mouse_pos = pygame.mouse.get_pos()
-
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -50,15 +53,34 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for j in sq:
-                if j["rect"].collidepoint(event.pos):
-                    j["select"] = not j["select"]
+                if click == 1:
+                    if j["rect"].collidepoint(event.pos):
+                        j["select"] = not j["select"]
+                        j["startorend"] = 1
+                        click=2
+                elif click == 2:
+                    if j["rect"].collidepoint(event.pos):
+                        j["select"] = not j["select"]
+                        j["startorend"] = 2
+                        click+=1
+    start = sq[0]["rect"]
+    end = sq[0]["rect"]
     for i in sq:
         color = (50, 50, 50)
-        if i["select"]:
-            color=(255, 0, 0)
+        if i["startorend"] == 1:
+            color = (255, 0, 0)
+            start = i["rect"]
+            
+            
+        if i["startorend"] == 2:
+            color = (0, 0, 255)
+            end = i["rect"]
+            
         pygame.draw.rect(screen, color, i["rect"])
         pygame.draw.rect(screen, color, i["rect"])
         
+    print (start)
+    print(end)    
     pygame.display.flip()
     clock.tick(60)
 
