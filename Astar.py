@@ -63,18 +63,18 @@ while True:
                         j["select"] = not j["select"]
                         j["startorend"] = 2
                         click+=1
-    start = sq[0]["rect"]
-    end = sq[0]["rect"]
+    start = sq[0]["position"]
+    end = sq[0]["position"]
     for i in sq:
         color = (50, 50, 50)
         if i["startorend"] == 1:
             color = (255, 0, 0)
-            start = i["rect"]
+            start = i["position"]
             
             
         if i["startorend"] == 2:
             color = (0, 0, 255)
-            end = i["rect"]
+            end = i["position"]
             
         pygame.draw.rect(screen, color, i["rect"])
         pygame.draw.rect(screen, color, i["rect"])
